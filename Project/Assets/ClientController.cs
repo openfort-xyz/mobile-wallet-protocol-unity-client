@@ -1,0 +1,72 @@
+using UnityEngine;
+using MobileWalletProtocol;
+
+public class ClientController : MonoBehaviour
+{
+    [SerializeField]
+    MWPClientOptions m_Options = new MWPClientOptions()
+    {
+        Metadata = new AppMetadata()
+        {
+            Name = "Smart Wallet Expo",
+            CustomScheme = "exp://"
+        },
+        Wallet = Wallet.CreateWebWallet(
+            name: "Rapid fire wallet",
+            scheme: "https://id.sample.openfort.xyz#policy=pol_a909d815-9b6c-40b2-9f6c-e93505281137",
+            iconUrl: "https://purple-magnificent-bat-958.mypinata.cloud/ipfs/QmfQrh2BiCzugFauYF9Weu9SFddsVh9qV82uw43cxH8UDV"
+        )
+    };
+
+    MWPClient m_Client;
+    string m_Account;
+
+    void Awake()
+    {
+        m_Client = new MWPClient(m_Options);
+    }
+
+    public async void RequestAccounts()
+    {
+        var result = await m_Client.EthRequestAccounts();
+
+        if (result.IsSuccess)
+        {
+            var accounts = result.Value;
+
+            m_Account = accounts[0];
+
+            foreach (var account in accounts)
+            {
+                Debug.Log("Account: " + account);
+            }
+        }
+        else
+        {
+            Debug.LogError("Error: " + result.Error);
+        }
+    }
+
+    public void Disconnect()
+    {
+        m_Client.Reset();
+    }
+
+    public async void PersonalSign()
+    {
+        var result = await m_Client.PersonalSign(new PersonalSignParams()
+        {
+            Challange = "0x48656c6c6f2c20776f726c6421",
+            Address = m_Account
+        });
+
+        if (result.IsSuccess)
+        {
+            Debug.Log("Signature: " + result.Value);
+        }
+        else
+        {
+            Debug.LogError("Error: " + result.Error);
+        }
+    }
+}
