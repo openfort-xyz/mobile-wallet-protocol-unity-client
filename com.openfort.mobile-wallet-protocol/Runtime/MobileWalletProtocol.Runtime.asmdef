@@ -2,7 +2,8 @@
     "name": "MobileWalletProtocol.Runtime",
     "rootNamespace": "MobileWalletProtocol",
     "references": [
-        "unity-webview"
+        "unity-webview",
+        "Hazelnut.EdgeWebView"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

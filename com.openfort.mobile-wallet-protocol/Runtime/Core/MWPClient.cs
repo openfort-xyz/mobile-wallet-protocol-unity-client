@@ -75,29 +75,23 @@ namespace MobileWalletProtocol
             {
                 Id = options.Metadata.ChainIds?.Length > 0 ? options.Metadata.ChainIds[0] : "0x1"
             };
-            try
+
+            var storedAccounts = LoadFromPlayerPrefs<string[]>(k_AccountsKey);
+            if (storedAccounts != null)
             {
-                var storedAccounts = LoadFromPlayerPrefs<string[]>(k_AccountsKey);
-                if (storedAccounts != null)
-                {
-                    m_Accounts = storedAccounts;
-                }
-
-                var storedChain = LoadFromPlayerPrefs<Chain>(k_ActiveChainStorage);
-                if (storedChain != null)
-                {
-                    m_Chain = storedChain;
-                }
-
-                var storedCapabilities = LoadFromPlayerPrefs<Dictionary<int, Capability>>(k_WalletCapabilitiesStorageKey);
-                if (storedCapabilities != null)
-                {
-                    m_Capabilities = storedCapabilities;
-                }
+                m_Accounts = storedAccounts;
             }
-            catch (System.Exception)
+
+            var storedChain = LoadFromPlayerPrefs<Chain>(k_ActiveChainStorage);
+            if (storedChain != null)
             {
-                Reset();
+                m_Chain = storedChain;
+            }
+
+            var storedCapabilities = LoadFromPlayerPrefs<Dictionary<int, Capability>>(k_WalletCapabilitiesStorageKey);
+            if (storedCapabilities != null)
+            {
+                m_Capabilities = storedCapabilities;
             }
         }
 
@@ -149,7 +143,7 @@ namespace MobileWalletProtocol
             m_KeyManager.SetPeerPublicKey(peerPublicKey);
 
             var decrypted = DecryptResponseMessage(encryptedData);
-            var decryptedResponse = Utils.Deserialize<RequestAccountsResponse>(decrypted);
+            var decryptedResponse =  Utils.Deserialize<RequestAccountsResponse>(decrypted);
 
             if (decryptedResponse.Data?.Chains != null)
             {
@@ -517,7 +511,7 @@ namespace MobileWalletProtocol
                         walletGrantPermissionsParams
                     }
                 });
-
+                
                 return Result<WalletGrantPermissionsResult>.Success(result);
             }
             catch (Exception e)
@@ -573,7 +567,7 @@ namespace MobileWalletProtocol
         {
             var prefKey = GetPrefKey(key);
             if (!PlayerPrefs.HasKey(prefKey)) return default;
-
+            
             var json = PlayerPrefs.GetString(prefKey);
             return Utils.Deserialize<T>(json);
         }
@@ -625,7 +619,7 @@ namespace MobileWalletProtocol
         RPCRequestMessage CreateRequestMessage(object content)
         {
             var publicKey = Cipher.ExportKeyToHexString(
-                KeyType.Public,
+                KeyType.Public, 
                 m_KeyManager.GetOwnPublicKey()
             );
 
@@ -651,12 +645,12 @@ namespace MobileWalletProtocol
 
             return Cipher.Decrypt(sharedSecret, encryptedData);
         }
-
+        
         bool UpdateChain(string chainId, List<Chain> newAvailableChains = null)
         {
             var chains = newAvailableChains ?? LoadFromPlayerPrefs<List<Chain>>(k_AvailableChainsStorageKey);
             var newChain = chains?.FirstOrDefault(c => c.Id == chainId);
-
+            
             if (newChain == null)
             {
                 return false;
