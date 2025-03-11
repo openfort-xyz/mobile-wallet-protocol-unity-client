@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Bitbebop.SafeArea>
+        <ui:ScrollView>
+            <ui:Button text="Connect" parse-escape-sequences="true" display-tooltip-when-elided="true" name="button-connect" />
+            <ui:Button text="Disconnect" parse-escape-sequences="true" display-tooltip-when-elided="true" name="button-disconnect" />
+            <ui:Button text="Personal Sign" parse-escape-sequences="true" display-tooltip-when-elided="true" name="button-personal-sign" />
+            <ui:Button text="Send Transaction" parse-escape-sequences="true" display-tooltip-when-elided="true" name="button-eth-send-transaction" />
+        </ui:ScrollView>
+    </Bitbebop.SafeArea>
+</ui:UXML>

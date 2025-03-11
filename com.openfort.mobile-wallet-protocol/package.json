@@ -1,0 +1,11 @@
+{
+  "name": "com.openfort.mobile-wallet-protocol",
+  "displayName": "Mobile Wallet Protocol",
+  "version": "0.0.1",
+  "unity": "2022.3",
+  "unityRelease": "0f1",
+  "description": "Mobile Wallet Protocol implementation for Unity",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  }
+}

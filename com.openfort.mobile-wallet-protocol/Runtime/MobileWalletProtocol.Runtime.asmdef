@@ -1,0 +1,19 @@
+{
+    "name": "MobileWalletProtocol.Runtime",
+    "rootNamespace": "MobileWalletProtocol",
+    "references": [
+        "EdgeWebView"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "BouncyCastle.Cryptography.dll",
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
