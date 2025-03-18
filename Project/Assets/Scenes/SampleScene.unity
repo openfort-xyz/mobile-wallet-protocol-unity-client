@@ -463,12 +463,13 @@ MonoBehaviour:
     m_Metadata:
       m_Name: Smart Wallet Expo
       m_LogoUrl: 
-      m_CustomScheme: exp://10.0.0.3:8081/--/
-      m_ChainIds: []
+      m_CustomScheme: exp://
+      m_ChainIds:
+      - 0xaa36a7
     m_Wallet:
       m_Type: 0
       m_Name: Rapid fire wallet
-      m_Scheme: https://id.sample.openfort.xyz#policy=pol_a909d815-9b6c-40b2-9f6c-e93505281137
+      m_Scheme: http://localhost:3000#policy=pol_a909d815-9b6c-40b2-9f6c-e93505281137
       m_IconUrl: https://purple-magnificent-bat-958.mypinata.cloud/ipfs/QmfQrh2BiCzugFauYF9Weu9SFddsVh9qV82uw43cxH8UDV
 --- !u!4 &1662088151
 Transform:

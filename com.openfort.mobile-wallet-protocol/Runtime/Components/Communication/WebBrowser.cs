@@ -20,8 +20,10 @@ namespace MobileWalletProtocol
             new WebBrowserWin();
 #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
             new WebBrowserOSX();
-#elif UNITY_IPHONE && !UNITY_EDITOR_OSX
+#elif UNITY_IPHONE && !UNITY_EDITOR
             new WebBrowserIOS();
+#elif UNITY_ANDROID && !UNITY_EDITOR
+            new WebBrowserAndroid();
 #elif UNITY_WEBGL && !UNITY_EDITOR
             new WebBrowserWebGL();
 #else

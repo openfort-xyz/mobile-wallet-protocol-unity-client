@@ -1,4 +1,4 @@
-#if UNITY_IPHONE && !UNITY_EDITOR_OSX
+#if UNITY_IPHONE && !UNITY_EDITOR
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;

@@ -9,7 +9,8 @@ public class ClientController : MonoBehaviour
         Metadata = new AppMetadata()
         {
             Name = "Smart Wallet Expo",
-            CustomScheme = "exp://"
+            CustomScheme = "exp://",
+            ChainIds = new string[] { "0xaa36a7" }
         },
         Wallet = Wallet.CreateWebWallet(
             name: "Rapid fire wallet",

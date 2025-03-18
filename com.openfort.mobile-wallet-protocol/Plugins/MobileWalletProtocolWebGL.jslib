@@ -4,7 +4,9 @@ mergeInto(LibraryManager.library, {
 		var popupUrl = stringify(url);
 		var nameStr = stringify(name);
 		var redirectUriStr = stringify(redirectUri);
-        const ecosystemWalletDomain = 'https://id.sample.openfort.xyz';
+        const URLObject = new URL(popupUrl);
+        const ecosystemWalletDomain = URLObject.origin;
+        const policy = URLObject.hash? URLObject.hash.replace('#policy=', '') : undefined;
 
 		console.log("Opening popup with URL: " + ecosystemWalletDomain);
 		console.log("Redirect URI: " + redirectUriStr);
@@ -105,7 +107,6 @@ mergeInto(LibraryManager.library, {
 			if (response.requestId) urlParams.append('requestId', JSON.stringify(response.requestId));
 			if (response.sender) urlParams.append('sender', JSON.stringify(response.sender));
 			if (response.timestamp) urlParams.append('timestamp', JSON.stringify(new Date(response.timestamp).toISOString()));
-			
 			// Handle content based on its structure
 			if (response.content) {
 				if (response.content.failure) {
@@ -162,6 +163,7 @@ mergeInto(LibraryManager.library, {
         var request = {
             topic: 'rpc-requests',
             id: urlParams.id,
+            policy: policy,
             requestId: urlParams.requestId || null,
             sender: urlParams.sender,
             timestamp: urlParams.timestamp || new Date(),
