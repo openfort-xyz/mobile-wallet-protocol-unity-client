@@ -176,13 +176,6 @@ namespace MobileWalletProtocol
             return m_Accounts;
         }
 
-        public string EthCoinbase()
-        {
-            CheckAuthorised();
-
-            return m_Accounts[0];
-        }
-
         public string EthChainId()
         {
             CheckAuthorised();
