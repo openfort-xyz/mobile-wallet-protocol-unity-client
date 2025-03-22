@@ -35,7 +35,7 @@ assemble.doLast {
         from("$projectDir/build/outputs/aar") {
             include aarName
         }
-        into "$projectDir/../../../../src/Packages/OpenfortSDK/Runtime/Assets/Plugins/Android"
+        into "$projectDir/../../../../com.openfort.mobile-wallet-protocol/Plugins/Android"
         rename aarName, 'OpenfortAndroid.aar'
         println "Successfully copied aar to Unity SDK"
     }
