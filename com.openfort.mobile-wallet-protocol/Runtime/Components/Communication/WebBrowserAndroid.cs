@@ -1,51 +1,42 @@
 #if UNITY_ANDROID && !UNITY_EDITOR
 using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using UnityEngine;
 
 namespace MobileWalletProtocol
 {
-    class WebBrowserAndroid : IWebBrowser, ICallback
+    class WebBrowserAndroid : IWebBrowser
     {
-        void ICallback.OnDismissed()
-        {
-            Debug.Log("OnDismissed");
-        }
-
-        void ICallback.OnDeepLinkResult(string url)
-        {
-            Debug.Log("OnDeepLinkResult: " + url);
-        }
-
         public async Task<WebBrowserResult> OpenPopupAsync(string url, string returnUrlScheme)
         {
+            var result = new WebBrowserResult();
+            var isDone = false;
             var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
             var customTabLauncher = new AndroidJavaClass("com.openfort.unity.OpenfortActivity");
+            var callback = new AndroidCallback();
 
-            customTabLauncher.CallStatic("startActivity", activity, url, new AndroidCallback(this));
-
-            var result = new WebBrowserResult();
-            var isDone = false;
-
-            var onError = new Action<string, string>((key, message) =>
+            callback.onDismissed += () =>
             {
-                result.Type = string.IsNullOrEmpty(message) ? "cancel" : "error";
-                result.Url = message;
+                result.Type = "cancel";
                 isDone = true;
-            });
+            };
 
-            var onSuccess = new Action<string>((message) =>
+            callback.onDeepLinkResult += (url) =>
             {
                 result.Type = "success";
-                result.Url = message;
+                result.Url = url;
                 isDone = true;
-            });
+            };            
+
+            customTabLauncher.CallStatic("startActivity", activity, url, callback);
 
             try
             {
                 while (!isDone)
                 {
+                    callback.ProcessActionQueue();
                     await Task.Yield();
                 }
 
@@ -58,29 +49,31 @@ namespace MobileWalletProtocol
         }
     }
 
-    interface ICallback
-    {
-        void OnDismissed();
-        void OnDeepLinkResult(string url);
-    }
-
     class AndroidCallback : AndroidJavaProxy
     {
-        private ICallback callback;
+        public event Action onDismissed;
+        public event Action<string> onDeepLinkResult;
+    
+        ConcurrentQueue<Action> m_Actions = new ConcurrentQueue<Action>();
+        
+        public AndroidCallback() : base("com.openfort.unity.OpenfortActivity$Callback") { }
 
-        public AndroidCallback(ICallback callback) : base("com.openfort.unity.OpenfortActivity$Callback")
+        public void ProcessActionQueue()
         {
-            this.callback = callback;
+            while (m_Actions.TryDequeue(out var action))
+            {
+                action.Invoke();
+            }
         }
 
         void onCustomTabsDismissed(string url)
         {
-            callback.OnDismissed();
+            m_Actions.Enqueue(() => onDismissed?.Invoke());
         }
 
         void onDeeplinkResult(string url)
         {
-            callback.OnDeepLinkResult(url);
+            m_Actions.Enqueue(() => onDeepLinkResult?.Invoke(url));
         }
     }
 }

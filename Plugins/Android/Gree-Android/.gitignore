@@ -1,7 +1,0 @@
-bin
-gen
-local.properties
-obj
-proguard.cfg
-.idea/
-*.meta
