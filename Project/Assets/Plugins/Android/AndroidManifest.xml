@@ -19,7 +19,6 @@
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="mygame" android:host="mobile-wallet-protocol" />
-            <data android:scheme="mygame" android:host="logout" />
         </intent-filter>
         </activity>
     </application>
