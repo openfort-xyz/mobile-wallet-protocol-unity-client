@@ -3,7 +3,7 @@
 🚀 **MWP for Unity is now publicly available!** This implementation allows Unity game developers to seamlessly connect their in-game wallets with the broader Web3 ecosystem using **secure deep linking**.
 
 ## ✨ Features
-Allow any game build on Unity to interact with any wallet supporting the Mobiel Wallet Protocol.
+Allow any game build on Unity to interact with any wallet supporting the Mobile Wallet Protocol.
 
 ## Getting Started
 
