@@ -14,12 +14,11 @@ Check out our **[comprehensive documentation](https://www.openfort.io/docs/guide
 | Platform  | Supported |
 |-----------|:--------:|
 | iOS       | ✅       |
-| Android   | 🏗️       |
+| Android   | ✅       |
 | Mac       | ✅       |
 | Windows   | ✅       |
 
-## Example Project
-Coming soon
+## [Example Project](https://github.com/openfort-xyz/mobile-wallet-protocol-unity-client/tree/main/Project)
 
 ### Reference
 This implementation is based on the original **Mobile Wallet Protocol** standard developed by [Coinbase](https://mobilewalletprotocol.github.io/wallet-mobile-sdk/).
